@@ -1,6 +1,9 @@
 # Project - Console Application -  .NET DI/PgSql/Dapper
 
-<img alt="C# logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaA2RTJJGS7KHl7Lv1HpneTHBKM_yRUp8Q95q5bIGxUOR0axXXidgKzB48bhfhPhPEJVo&usqp=CAU" width="200" height="200"><img alt="Dapper NuGet logo" src="https://api.nuget.org/v3-flatcontainer/dapper/2.0.90/icon" width="200" height="200"><img alt="Serilog logo"src="https://camo.githubusercontent.com/61dbe65ee3b517d195b5791122ecaf42ba76be78eba921acaf112f096dc57d84/68747470733a2f2f736572696c6f672e6e65742f696d616765732f736572696c6f672d31383070782e706e67" width="200" height="200"><img alt="PostgreSQL logo"src="https://api.nuget.org/v3-flatcontainer/npgsql/5.0.5/icon" width="200" height="200">
+<img alt="C# logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaA2RTJJGS7KHl7Lv1HpneTHBKM_yRUp8Q95q5bIGxUOR0axXXidgKzB48bhfhPhPEJVo&usqp=CAU" width="200" height="200">
+<img alt="Dapper NuGet logo" src="https://api.nuget.org/v3-flatcontainer/dapper/2.0.90/icon" width="200" height="200">
+<img alt="Serilog logo" src="https://camo.githubusercontent.com/61dbe65ee3b517d195b5791122ecaf42ba76be78eba921acaf112f096dc57d84/68747470733a2f2f736572696c6f672e6e65742f696d616765732f736572696c6f672d31383070782e706e67" width="200" height="200">
+<img alt="PostgreSQL logo"src="https://api.nuget.org/v3-flatcontainer/npgsql/5.0.5/icon" width="200" height="200">
 
 
 ## Objective
