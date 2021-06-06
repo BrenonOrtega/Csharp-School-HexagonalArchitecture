@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,14 @@ namespace firstDataAccess.Demo
         {
             Enumerable.Range(1, _config.GetValue<int>("Loop Times")).ToList()
                 .ForEach(i => _logger.LogInformation("The number is {loopNumber}", i));
+        }
+
+        public void Greet(IEnumerable<object> objs)
+        {
+            foreach(var obj in objs)
+            {
+                _logger.LogInformation("Hello {objName}", obj);
+            }
         }
     }
 }

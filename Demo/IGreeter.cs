@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+
 namespace firstDataAccess.Demo
 {
     public interface IGreeter
     {
-        public void EnumerateFromAppSettings();
+        void EnumerateFromAppSettings();
+        void Greet(IEnumerable<object> objs);
     }
 }
