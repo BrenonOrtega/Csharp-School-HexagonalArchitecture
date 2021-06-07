@@ -5,14 +5,13 @@ namespace FirstDataAccess.Extensions
 {
     public static class ConfigurationBuilderSetup
     {
-        public static IConfigurationBuilder BuildConfig(this IConfigurationBuilder builder)
+        public static IConfigurationBuilder SetupConfig(this IConfigurationBuilder builder, string environment)
         {
             builder.SetBasePath(AppContext.BaseDirectory)
                         .AddJsonFile("appsettings.json", optional:false, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
-                        .AddEnvironmentVariables();
-                        
-            return builder;
+                        .AddJsonFile(@$"appsettings.{ environment ?? "Production" }.json", optional: true, reloadOnChange:true)
+                        .AddEnvironmentVariables();          
+            return builder;      
         }
     }
 }
