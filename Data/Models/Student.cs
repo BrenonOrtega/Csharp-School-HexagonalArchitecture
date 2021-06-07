@@ -23,7 +23,7 @@ namespace FirstDataAccess.Data.Models
         [Column("data_nascimento")]
         public DateTime BirthDate { get; set; }
 
-        public override string ToString() => $"ID:{ Id }-Name: { FirstName } { LastName }-Birth Date: {BirthDate}";
+        public override string ToString() => $"ID:{ Id }-Name:{ FirstName } { LastName }-Birth Date:{BirthDate}";
         
     }
 }
