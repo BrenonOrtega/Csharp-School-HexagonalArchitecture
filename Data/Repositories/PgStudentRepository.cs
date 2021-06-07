@@ -1,72 +1,73 @@
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using FirstDataAccess.Helpers;
-using FirstDataAccess.Data.Models;
-using FirstDataAccess.Data.Repositories.Interfaces;
 using Dapper;
 using System;
+using System.Data;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using FirstDataAccess.Helpers;
+using FirstDataAccess.Data.Models;
+using FirstDataAccess.Data.Repositories.Interfaces.Async;
 
 namespace FirstDataAccess.Data.Repositories
 {
-    public class PgStudentRepository : IStudentRepository
+    public class PgStudentRepository : IStudentAsyncRepository
     {
-        private IConnectionHelper _helper;
+        private readonly IConnectionHelper _helper;
         private readonly ILogger<PgStudentRepository> _logger;
+        private readonly IConfiguration _config;
 
-        public PgStudentRepository(IConnectionHelper helper, ILogger<PgStudentRepository> logger)
+        public PgStudentRepository(IConfiguration config, IConnectionHelper helper, ILogger<PgStudentRepository> logger)
         {
+            _config = config;
             _helper = helper;
             _logger = logger;
         }   
 
-        public async Task<IEnumerable<Student>> GetAll(int page=1, int rowCount=10)
+        public async Task<IEnumerable<Student>> GetAll(int page=1, int rowCount=2)
         {
-            using(var connection = _helper.GetDbConnection()) { 
-                var students = connection.Query<Student>(@" SELECT  id AS Id, 
-                                                                    primeiro_nome AS FirstName,
-                                                                    ultimo_nome AS LastName,
-                                                                    data_nascimento AS BirthDate 
-                                                            FROM public.aluno"
-                                                            );
-                foreach (var student in students) {
-                    _logger.LogInformation("{studentItem}", student);  
-                }
+            using(var connection  = _helper.GetDbConnection()) 
+            { 
+                var sql =  _config.GetValue<string>("Procedures:Students:GetAll");
+                var students = await connection.QueryAsync<Student>(sql, new { rowCount = rowCount, page = page });
                 return new List<Student>(students);
             }
         }
  
-        public async Task<Student> FindById(int id)
+        public async Task<Student> GetOneById(int id)
         {
-            using(var cnn = _helper.GetDbConnection())
-            {
-                var student = await cnn.QueryFirstAsync<Student>($@"SELECT  id as Id,
-                                                                            primeiro_nome as FirstName,
-                                                                            ultimo_nome as LastName,
-                                                                            data_nascimento as BirthData
-                                                                    FROM    public.aluno 
-                                                                    WHERE   Id = @Id;", new {Id = id});
-                return student ?? throw new Exception();
+            using(var cnn = _helper.GetDbConnection())  {
+                var student = 
+                await cnn.QueryFirstAsync<Student>(
+                    sql:$@" SELECT  id as Id,
+                                    primeiro_nome as FirstName,
+                                    ultimo_nome as LastName,
+                                    data_nascimento as BirthData
+                            FROM    public.aluno 
+                            WHERE   Id = @Id;",
+                    param: new {Id = id}
+                );
+
+                return student ?? throw new DataException();
             }
         }
 
-        public async Task<Student> FindByName(string name)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<Student> Create(Student obj)
-        {
-            var student = new Student();
-            return await new Task<Student>(() => student);
-        }
-
-        public Task Delete(Student obj)
+        public async Task<Student> GetOneByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(Student obj)
+        public async Task<Student> Create(Student obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Delete(Student obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Update(Student obj)
         {
             throw new NotImplementedException();
         }
