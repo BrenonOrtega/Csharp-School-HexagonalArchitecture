@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace FirstDataAccess.Data.Repositories.Interfaces.Shared
 {
-    public interface IAsyncRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
-        Task<T> FindById(int id);
-        Task<T> FindByName(string name);
-        Task<IEnumerable<T>> GetAll(int page, int rowCount);
-        Task<T> Create(T obj);
-        Task Delete(T obj);
-        Task Update(T obj);
+        T FindById(int id);
+        T FindByName(string name);
+        IEnumerable<T> GetAll(int page, int rowCount);
+        T Create(T obj);
+        bool Delete(T obj);
+        bool Update(T obj);
     }
 }
