@@ -1,10 +1,8 @@
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using FirstDataAccess.Data.Repositories.Interfaces;
 using System.Collections.Generic;
-using System;
-using Microsoft.VisualBasic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using FirstDataAccess.Data.Repositories.Interfaces.Async;
 
 namespace FirstDataAccess.Controllers
 {
@@ -12,10 +10,10 @@ namespace FirstDataAccess.Controllers
     {
         private IConfiguration _config;
         private ILogger<AppMenu> _logger;
-        private IStudentRepository _studentRepository;
+        private IStudentAsyncRepository _studentRepository;
         private string name => nameof(AppMenu);
 
-        public AppMenu(IConfiguration config, ILogger<AppMenu> logger, IStudentRepository studentRepository)
+        public AppMenu(IConfiguration config, ILogger<AppMenu> logger, IStudentAsyncRepository studentRepository)
         {
             _config = config;
             _logger = logger;
@@ -32,19 +30,23 @@ namespace FirstDataAccess.Controllers
         private void InitialGreet()
         {
             var greet = getConfigs(nameof(InitialGreet)).Get<string>();
+
+            _logger.LogInformation("*******************************");
+
             _logger.LogInformation(greet);
+            
+            _logger.LogInformation("*******************************");
+
         }    
 
         private void NavigationOptions() 
         {
+            _logger.LogInformation("Please select an option");
+
             var options = getConfigs(nameof(NavigationOptions)).Get<List<string>>();
 
             for(var index=0; index < options.Count; index++)
-            {
                 _logger.LogInformation("{optionIndex}-{optionName}",index, options[index]);
-            }
-            /* _logger.LogInformation("Select an option:");
-            _logger.LogInformation("{optionNumber} - {optionName}"); */
         }
 
         private IConfigurationSection getConfigs(string funcName) => _config.GetSection($"{ name }:{ funcName }");
