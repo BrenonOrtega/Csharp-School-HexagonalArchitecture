@@ -54,6 +54,9 @@ namespace FirstDataAccess
                     Log.Logger.Information("student:{student}", student);
 
                     greeter.Greet(await repository.GetAll());
+
+                    student = await repository.Create(new() { FirstName="Peter", LastName="Parker", BirthDate=DateTime.UtcNow });
+                    Log.Logger.Information("Created Student {student}", student);
             }).Wait();
         #endregion
 
@@ -61,6 +64,7 @@ namespace FirstDataAccess
             var app = ActivatorUtilities.CreateInstance<AppMenu>(host.Services);
             app.Start();
         #endregion
+
         }
 
     }
