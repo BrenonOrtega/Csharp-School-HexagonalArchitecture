@@ -8,11 +8,13 @@ using Microsoft.Extensions.Configuration;
 using FirstDataAccess.Helpers;
 using FirstDataAccess.Data.Models;
 using FirstDataAccess.Data.Repositories.Interfaces.Async;
+using NpgsqlTypes;
 
 namespace FirstDataAccess.Data.Repositories
 {
     public class PgStudentRepository : IStudentAsyncRepository
     {
+        private readonly string configPrefix = "Procedures:Students";
         private readonly IConnectionHelper _helper;
         private readonly ILogger<PgStudentRepository> _logger;
         private readonly IConfiguration _config;
@@ -26,9 +28,10 @@ namespace FirstDataAccess.Data.Repositories
 
         public async Task<IEnumerable<Student>> GetAll(int page=1, int rowCount=2)
         {
+            var sql =  _config.GetValue<string>($"{ configPrefix }:{ nameof(GetAll)}");
+
             using(var connection  = _helper.GetDbConnection()) 
-            { 
-                var sql =  _config.GetValue<string>("Procedures:Students:GetAll");
+            {  
                 var students = await connection.QueryAsync<Student>(sql, new { rowCount = rowCount, page = page });
                 return new List<Student>(students);
             }
@@ -36,18 +39,11 @@ namespace FirstDataAccess.Data.Repositories
  
         public async Task<Student> GetOneById(int id)
         {
-            using(var cnn = _helper.GetDbConnection())  {
-                var student = 
-                await cnn.QueryFirstAsync<Student>(
-                    sql:$@" SELECT  id as Id,
-                                    primeiro_nome as FirstName,
-                                    ultimo_nome as LastName,
-                                    data_nascimento as BirthData
-                            FROM    public.aluno 
-                            WHERE   Id = @Id;",
-                    param: new {Id = id}
-                );
+            var sql = _config.GetValue<string>( $"{ configPrefix }:{ nameof(GetOneById)}" );
 
+            using(var cnn = _helper.GetDbConnection())  
+            {
+                var student =  await cnn.QueryFirstAsync<Student>(sql:sql, param: new {id = id});
                 return student ?? throw new DataException();
             }
         }
@@ -59,7 +55,15 @@ namespace FirstDataAccess.Data.Repositories
 
         public async Task<Student> Create(Student obj)
         {
-            throw new NotImplementedException();
+            using (var connection = _helper.GetDbConnection())
+            {
+                var sql = _config.GetValue<string>($"{ configPrefix }:{ nameof(Create) }");
+                var new_student = await connection.QueryFirstOrDefaultAsync<Student>(
+                    sql:sql,
+                    param: new { FirstName=obj.FirstName, LastName=obj.LastName, BirthDate=obj.BirthDate}
+                );
+                return new_student;
+            }
         }
 
         public async Task Delete(Student obj)
