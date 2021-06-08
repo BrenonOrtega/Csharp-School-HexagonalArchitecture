@@ -19,6 +19,8 @@ namespace FirstDataAccess.Controllers
             _logger = logger;
             _studentRepository = studentRepository;
         }
+        
+        private IConfigurationSection getConfigs(string funcName) => _config.GetSection($"{ name }:{ funcName }");
 
         public void Start()
         {
@@ -31,24 +33,20 @@ namespace FirstDataAccess.Controllers
         {
             var greet = getConfigs(nameof(InitialGreet)).Get<string>();
 
-            _logger.LogInformation("*******************************");
-
+            System.Console.WriteLine();
             _logger.LogInformation(greet);
-            
-            _logger.LogInformation("*******************************");
-
+            System.Console.WriteLine();
         }    
 
         private void NavigationOptions() 
         {
-            _logger.LogInformation("Please select an option");
-
             var options = getConfigs(nameof(NavigationOptions)).Get<List<string>>();
+
+            _logger.LogInformation("Please select an option");
 
             for(var index=0; index < options.Count; index++)
                 _logger.LogInformation("{optionIndex}-{optionName}",index, options[index]);
         }
 
-        private IConfigurationSection getConfigs(string funcName) => _config.GetSection($"{ name }:{ funcName }");
     }
 }
