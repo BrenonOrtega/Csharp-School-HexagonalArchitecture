@@ -82,5 +82,21 @@ To create an extension methods we need to follow some rules like:
  ### Data Relationships
 
 (To be written)
- 
+
+## Issues during development
+### PostgreSQL
+
+ - System.Data.DateTime converts directly to postgresql "timestamp without timezone" data type so a function with input "date" data type cannot insert it in a direct conversion, so turning the input data type to "timestamp" enabled to pass directly System.Data.DateTime to the postgre function and it would insert correctly, and stills return a table with "date" fields to dapper mapping function withou any more problems.
+
+ - When using functions in postgre (or stored procedures in other db's) you should be aware of the kind of data that will be returned from each call. Dapper was not properly mapping Repository.GetAll method data return because in my db function call i did not asked for all fields that my function returns
+ ```sql
+ -- RETURNS THE FUNCTION CALL OR "A RECORD"
+SELECT public.getallstudents(paging_page:=page, paging_size:=size);
+ ```
+ this did return me a "record", but was not returning the table with the fields, since the script was created to return a table with fields matching my model properties the correct function call is as follow:
+
+ ```SQL
+ -- RETURNS A TABLE CONTAINING "Id, FirstName, LastName, BirthDate" so dapper can do the entity mapping on it.
+ SELECT * FROM public.getallstudents(paging_page:=page, paging_size:=size);
+ ```
  ### A Huge thanks to [Tim Corey](https://github.com/TimCorey) and to [Andre Secco](https://github.com/andreluizsecco) for their teachings and for the content that they produce. <br/> Follow their channels for high quality .NET and general development content.
