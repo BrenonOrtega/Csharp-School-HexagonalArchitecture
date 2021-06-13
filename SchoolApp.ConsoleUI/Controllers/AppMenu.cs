@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using SchoolApp.Infra.Repositories.Async;
+using SchoolApp.Domain.Repositories.Queries;
 
 namespace SchoolApp.ConsoleUI.Controllers
 {
@@ -10,10 +10,10 @@ namespace SchoolApp.ConsoleUI.Controllers
     {
         private IConfiguration _config;
         private ILogger<AppMenu> _logger;
-        private IStudentAsyncRepository _studentRepository;
+        private IStudentQueryRepository _studentRepository;
         private string name => nameof(AppMenu);
 
-        public AppMenu(IConfiguration config, ILogger<AppMenu> logger, IStudentAsyncRepository studentRepository)
+        public AppMenu(IConfiguration config, ILogger<AppMenu> logger, IStudentQueryRepository studentRepository)
         {
             _config = config;
             _logger = logger;
