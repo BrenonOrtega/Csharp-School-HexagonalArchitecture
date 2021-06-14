@@ -8,10 +8,9 @@ namespace SchoolApp.ConsoleUI.Controllers
 {
     public class AppMenu
     {
-        private IConfiguration _config;
-        private ILogger<AppMenu> _logger;
-        private IStudentQueryRepository _studentRepository;
-        private string name => nameof(AppMenu);
+        private readonly IConfiguration _config;
+        private readonly ILogger<AppMenu> _logger;
+        private readonly IStudentQueryRepository _studentRepository;
 
         public AppMenu(IConfiguration config, ILogger<AppMenu> logger, IStudentQueryRepository studentRepository)
         {
@@ -20,7 +19,7 @@ namespace SchoolApp.ConsoleUI.Controllers
             _studentRepository = studentRepository;
         }
         
-        private IConfigurationSection getConfigs(string funcName) => _config.GetSection($"{ name }:{ funcName }");
+        private IConfigurationSection GetConfigs(string funcName) => _config.GetSection($"{ nameof(AppMenu) }:{ funcName }");
 
         public void Start()
         {
@@ -31,7 +30,7 @@ namespace SchoolApp.ConsoleUI.Controllers
 
         private void InitialGreet()
         {
-            var greet = getConfigs(nameof(InitialGreet)).Get<string>();
+            var greet = GetConfigs(nameof(InitialGreet)).Get<string>();
 
             System.Console.WriteLine();
             _logger.LogInformation(greet);
@@ -40,7 +39,7 @@ namespace SchoolApp.ConsoleUI.Controllers
 
         private void NavigationOptions() 
         {
-            var options = getConfigs(nameof(NavigationOptions)).Get<List<string>>();
+            var options = GetConfigs(nameof(NavigationOptions)).Get<List<string>>();
 
             _logger.LogInformation("Please select an option");
 
