@@ -6,7 +6,7 @@ namespace SchoolApp.Domain.ValueObjects
 {
     public class Email
     {
-        private string _text;
+        private readonly string _text;
 
         public Email(string address)
         {
@@ -18,9 +18,9 @@ namespace SchoolApp.Domain.ValueObjects
 
         public static implicit operator string(Email email) => email._text;
 
-        void ThrowIfInvalid(string text)
+        private static void ThrowIfInvalid(string text)
         {
-            throwIfNullOrEmpty(text);
+            ThrowIfNullOrEmpty(text);
             ThrowIfFormatDoesntMatch(text);
         }
 
@@ -37,13 +37,13 @@ namespace SchoolApp.Domain.ValueObjects
             return areEquals;
         }
 
-        void throwIfNullOrEmpty(string text)
+        private static void ThrowIfNullOrEmpty(string text)
         {
             if(String.IsNullOrEmpty(text))
                 throw new InvalidEmailException("Email cannot be empty.");
         }
 
-        void ThrowIfFormatDoesntMatch(string text)
+        private static void ThrowIfFormatDoesntMatch(string text)
         {
             var pattern = @"^[a-z0-9.]+@[a-z0-9.]+.(com|net|io){1}";
             var re = new Regex(pattern);

@@ -4,7 +4,7 @@ namespace SchoolApp.Domain.ValueObjects
 {
     public class Name
     {
-        private string _text;
+        private readonly string _text;
 
         public Name(string text)
         {
