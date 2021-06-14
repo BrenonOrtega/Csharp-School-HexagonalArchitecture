@@ -62,7 +62,7 @@ To create an extension methods we need to follow some rules like:
  ```CSharp  
     public static class ConfigurationBuilderSetup
     {
-        public static IConfigurationBuilder BuildConfig(this IConfigurationBuilder builder)
+        public static IConfigurationBuilder SetupConfig(this IConfigurationBuilder builder)
         {
             //Implementation of the method here.
             return builder;
