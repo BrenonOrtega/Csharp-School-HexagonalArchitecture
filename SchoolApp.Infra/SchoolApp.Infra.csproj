@@ -8,11 +8,13 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Npgsql" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0"/>
+    <PackageReference Include = "Microsoft.Extensions.DependencyInjection" Version="5.0.1" /> 
   </ItemGroup>
 
   <!-- Project References-->
   <ItemGroup>
-    <ProjectReference Include="..\SchoolApp.Domain.Core\SchoolApp.Domain.Core.csproj" />
     <ProjectReference Include="..\SchoolApp.Domain\SchoolApp.Domain.csproj" />
   </ItemGroup>
 
