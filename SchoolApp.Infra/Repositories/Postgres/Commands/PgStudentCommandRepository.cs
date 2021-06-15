@@ -23,10 +23,12 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
 
             using var cnn = _helper.GetConnection(_connectionString);
             await cnn.QueryAsync(
-                sql: sql, 
-                param: new { FirstName = (string) entity.FirstName, 
-                                LastName = (string) entity.LastName ,
-                                BirthDate = entity.BirthDate }
+                sql: sql,
+                param: new {
+                    FirstName = (string) entity.FirstName,
+                    LastName = (string) entity.LastName ,
+                    BirthDate = entity.BirthDate
+                }
             );
         }
 
