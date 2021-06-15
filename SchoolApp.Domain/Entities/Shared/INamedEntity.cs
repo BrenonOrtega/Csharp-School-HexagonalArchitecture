@@ -4,6 +4,6 @@ namespace SchoolApp.Domain.Entities.Shared
 {
     public interface INamedEntity : IEntity
     {
-        public Name Name { get; set; }
+        public Name Name { get; }
     }
 }
