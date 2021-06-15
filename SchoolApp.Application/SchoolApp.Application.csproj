@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include = "..\SchoolApp.Infra\SchoolApp.Infra.csproj"/>
+    <ProjectReference Include = "..\SchoolApp.Domain\SchoolApp.Domain.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
