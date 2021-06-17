@@ -6,7 +6,7 @@ using SchoolApp.Application.Dtos.ReadDtos.StudentDtos;
 
 namespace SchoolApp.Application.Dtos.ReadDtos
 {
-    public class StudentDto 
+    public class StudentReadDto 
     {
         public int Id { get; }
         public string FirstName { get; }
@@ -14,7 +14,7 @@ namespace SchoolApp.Application.Dtos.ReadDtos
         public DateTime BirthDate { get; }
         public string Email { get; }
         public IList<StudentCourseDto> Courses { get; }
-        public StudentDto(Student student)
+        public StudentReadDto(Student student)
         {
             Id = student.Id;
             FirstName = student.FirstName;

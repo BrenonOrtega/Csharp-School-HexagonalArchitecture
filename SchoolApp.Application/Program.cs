@@ -9,12 +9,14 @@ using SchoolApp.Infra.Extensions;
 using SchoolApp.Infra.Helpers.Connections;
 using SchoolApp.Infra.Repositories.Postgres.Queries;
 using SchoolApp.Infra.Repositories.Postgres.Commands;
+using SchoolApp.Application.Services;
+using SchoolApp.Application.Dtos.CreateDtos;
+using SchoolApp.Domain.Repositories.Queries;
 
 namespace SchoolApp.Services
 {
     class Program
     {
-        
         static void Main(string[] args)
         {
             IConfiguration configuration;
@@ -35,25 +37,26 @@ namespace SchoolApp.Services
             IHost host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>  
                     services.AddTransient<BaseConnectionHelper, PgsqlConnectionHelper>()
-                        .SetupPostgresRepositories()
+                        .AddScoped<IStudentService, StudentService>()
+                        .SetupPlainFileRepositories()
                 )
                 .UseSerilog()
                 .Build();
 
             ///<Summary> Testing out directly retrieving and saving a student with the dependency injection container.</Summary>    
-            var queryRepository = ActivatorUtilities.CreateInstance<PgStudentQueryRepository>(host.Services);
-            var commandRepository = ActivatorUtilities.CreateInstance<PgStudentCommandRepository>(host.Services);
+            /* var queryRepository = ActivatorUtilities.CreateInstance<PgStudentQueryRepository>(host.Services);
+            var commandRepository = ActivatorUtilities.CreateInstance<PgStudentCommandRepository>(host.Services); */
+            IStudentService studentService = ActivatorUtilities.CreateInstance<StudentService>(host.Services);
+            
 
             Task.Run(async () =>
             {
-                var student = await queryRepository.GetById(1);
-                Log.Logger.Information("student:{student}", student);
-
-                await commandRepository.Save(new() { FirstName="Peter", LastName="Parker", BirthDate=DateTime.UtcNow });
-
-                var students = await queryRepository.GetAll(1, 100);
-                Log.Logger.Information("Created Student {student}",  students.Last());
-
+                var allstudents =  await studentService.RetrieveMultiple(1, 100);
+                allstudents.ToList().ForEach(x => System.Console.WriteLine(x));
+               /*  allstudents.ToList().ForEach(x => Log.Logger.Information("{student}",x)); */
+                var newStudent = new StudentCreateDto { LastName = "Test", FirstName = "Json", BirthDate = DateTime.Now, Email = "bryan.test@hotmail.com" };
+                await studentService.Create(newStudent);
+                Log.Logger.Information("Student: {Student}", newStudent);
             }).Wait();
 
         }

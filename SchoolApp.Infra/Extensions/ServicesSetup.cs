@@ -6,6 +6,8 @@ using SchoolApp.Infra.Repositories.PlainFiles.Commands;
 using SchoolApp.Infra.Repositories.PlainFiles.Queries;
 using SchoolApp.Infra.Repositories.Postgres.Commands;
 using SchoolApp.Infra.Repositories.Postgres.Queries;
+using SchoolApp.Infra.Repositories.Redis;
+using SchoolApp.Services.Repositories.Async;
 
 namespace SchoolApp.Infra.Extensions
 {
@@ -15,8 +17,9 @@ namespace SchoolApp.Infra.Extensions
         public static IServiceCollection SetupPostgresRepositories(this IServiceCollection services)
         {
             ThrowIfConfigured();
-            services.AddTransient<IStudentQueryRepository, PgStudentQueryRepository>()
-                .AddTransient<IStudentCommandRepository, PgStudentCommandRepository>()
+            services.AddScoped<IStudentQueryRepository, PgStudentQueryRepository>()
+                .AddScoped<IStudentCommandRepository, PgStudentCommandRepository>()
+                .AddScoped<ICourseQueryRepository, PgCourseQueryRepository>()
             ;
             IsConfigured = true;
             return services;
@@ -25,8 +28,20 @@ namespace SchoolApp.Infra.Extensions
         public static IServiceCollection SetupPlainFileRepositories (this IServiceCollection services)
         {
             ThrowIfConfigured();
-            services.AddTransient<IStudentQueryRepository, PfStudentQueryRepository>()
-                .AddTransient<IStudentCommandRepository, PfStudentCommandRepository>()
+            services.AddScoped<IStudentQueryRepository, PfStudentQueryRepository>()
+                .AddScoped<IStudentCommandRepository, PfStudentCommandRepository>()
+                .AddScoped<ICourseQueryRepository, PfCourseQueryRepository>()
+            ;
+            IsConfigured = true;
+            return services;
+        }
+
+        public static IServiceCollection SetupRedis(this IServiceCollection services)
+        {
+            ThrowIfConfigured();
+            services.AddScoped<IStudentCommandRepository, RedisStudentRepository>()
+                .AddScoped<IStudentQueryRepository, RedisStudentRepository>()
+                .AddScoped<RedisStudentRepository>();   
             ;
             IsConfigured = true;
             return services;
