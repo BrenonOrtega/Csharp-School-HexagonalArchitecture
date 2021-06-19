@@ -21,7 +21,7 @@ namespace SchoolApp.Application.Dtos.ReadDtos
             LastName = student.LastName;
             BirthDate = student.BirthDate;
             Email = student.Email;
-            Courses = student.Courses.Select(course => new StudentCourseDto(course)).ToList();
+            //Courses = student.Courses.Select(course => new StudentCourseDto(course)).ToList();
         }
     }
 }

@@ -28,6 +28,7 @@ namespace SchoolApp.Infra.Repositories.PlainFiles.Queries
             var students = JsonSerializer.Deserialize<IEnumerable<Student>>(
                     jsonFile, new JsonSerializerOptions { 
                         AllowTrailingCommas = true,
+                        Converters = { new EmailJsonConverter(), new NameJsonConverter()}
                     });
             return students;
         }
