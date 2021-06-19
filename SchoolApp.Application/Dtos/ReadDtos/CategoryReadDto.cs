@@ -1,7 +1,7 @@
-using SchoolApp.Domain.Entities;
-using System.Collections.Generic;
-using SchoolApp.Application.Dtos.ReadDtos.CategoriesDtos;
 using System.Linq;
+using System.Collections.Generic;
+using SchoolApp.Domain.Entities;
+using SchoolApp.Application.Dtos.ReadDtos.CategoriesDtos;
 
 namespace SchoolApp.Application.Dtos.ReadDtos
 {
@@ -17,6 +17,6 @@ namespace SchoolApp.Application.Dtos.ReadDtos
             Id = model.Id;
             Name = model.Name;
             Courses = model.Courses.Select(course => new CategoryCourseDto(course)).ToList();
-        }
+        }   
     }
 }

@@ -23,5 +23,7 @@ namespace SchoolApp.Application.Dtos.ReadDtos
             Email = student.Email;
             //Courses = student.Courses.Select(course => new StudentCourseDto(course)).ToList();
         }
+
+        public override string ToString() => $"Student:{FirstName} {LastName} - Id:{Id} - Email: {Email}";
     }
 }
