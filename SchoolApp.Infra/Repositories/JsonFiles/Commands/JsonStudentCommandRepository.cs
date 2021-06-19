@@ -1,8 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
@@ -10,38 +8,50 @@ using SchoolApp.Domain.Repositories.Commands;
 using SchoolApp.Domain.Entities;
 using System.Security.Cryptography;
 
+
 namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
 {
-    public class JsonStudentCommandRepository : BaseJsonFilesProperties, IStudentCommandRepository
+    public class JsonStudentCommandRepository : BaseJsonFilesProperties<Student>, IStudentCommandRepository
     {
         public JsonStudentCommandRepository(IConfiguration config, ILogger<JsonStudentCommandRepository> logger) 
             : base(config,logger)
         {
         }
-        public Task Delete(Student entity)
-        {
-            throw new System.NotImplementedException();
-        }
 
+        protected override string ConfigFileKey => "StudentFile";
+
+        public async Task Delete(Student entity)
+        {
+            await Execute(RemoveStudent, entity);
+        }
         public async Task Save(Student entity)
         {
             entity.Id = entity.Id != 0 ? entity.Id : RandomNumberGenerator.GetInt32(0,99999);
-            var jsonString = JsonSerializer.Serialize(entity, JsonOptions);
-            await AppendToFile(jsonString);
+            await Execute(InsertStudent, entity);
         }
 
-        public Task Update(Student entity)
+        public async Task Update(Student entity)
         {
-            throw new System.NotImplementedException();
+            entity.ModifiedAt = DateTime.Now;
+            Task.WaitAll(
+                Delete(entity),
+                Save(entity)
+            );
         }
 
-        private async Task AppendToFile(string appendString) 
+        private async Task<string> InsertStudent(Student student)
         {
-            string[] fileLines = await File.ReadAllLinesAsync(PlainFilePath);
-            string[] endingLines = { "," , "]" };
-            File.WriteAllLines(PlainFilePath, fileLines.Where(x => x != fileLines.Last()).ToArray());
-            File.AppendAllText(PlainFilePath, appendString); 
-            File.AppendAllLines(PlainFilePath, endingLines);
+            var allStudents = await GetEntries();
+            allStudents = allStudents.Append(student);
+            return JsonSerializer.Serialize(allStudents, JsonOptions);
+        }
+
+        private async Task<string> RemoveStudent(Student studentToRemove)
+        {
+            var allStudents = await GetEntries();
+            var filteredStudents = allStudents.Where(student => student.Id != studentToRemove.Id);
+            var serializedStudents = JsonSerializer.Serialize(filteredStudents, JsonOptions);
+            return serializedStudents;
         }
     }
 }
