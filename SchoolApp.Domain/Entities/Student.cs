@@ -5,7 +5,7 @@ using SchoolApp.Domain.Entities.Shared;
 
 namespace SchoolApp.Domain.Entities
 {
-    public partial class Student : BaseEntity
+    public class Student : BaseEntity
     {
         public Name FirstName {get; set;}
         public Name LastName { get; set; }

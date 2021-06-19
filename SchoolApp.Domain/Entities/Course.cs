@@ -4,7 +4,7 @@ using SchoolApp.Domain.Entities.Shared;
 
 namespace SchoolApp.Domain.Entities
 {
-    public partial class Course : NamedBaseEntity 
+    public class Course : NamedBaseEntity 
     {
         public IList<Student> Students { get; set; }
         public IList<Category> Categories { get;set; }     
