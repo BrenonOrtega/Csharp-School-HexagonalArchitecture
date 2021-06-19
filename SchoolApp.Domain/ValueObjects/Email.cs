@@ -16,7 +16,7 @@ namespace SchoolApp.Domain.ValueObjects
 
         public static implicit operator Email(string text) => new Email(text);
 
-        public static implicit operator string(Email email) => email._text;
+        public static implicit operator string(Email email) => email?._text;
 
         private static void ThrowIfInvalid(string text)
         {
@@ -45,7 +45,7 @@ namespace SchoolApp.Domain.ValueObjects
 
         private static void ThrowIfFormatDoesntMatch(string text)
         {
-            var pattern = @"^[a-z0-9.]+@[a-z0-9.]+.(com|net|io){1}";
+            var pattern = @"(?i)^[a-z0-9.]+@[a-z0-9]+.(com|net|io){1}";
             var re = new Regex(pattern);
 
             if(re.IsMatch(text) != true)
