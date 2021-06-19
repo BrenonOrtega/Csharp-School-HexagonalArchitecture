@@ -15,8 +15,7 @@ namespace SchoolApp.Domain.ValueObjects
         }
 
         public static implicit operator Name(string text) => new Name(text);
-
-        public static implicit operator string(Name name) => name._text;
+        public static implicit operator string(Name name) => name.ToString();
 
         public override string ToString() => _text;
 

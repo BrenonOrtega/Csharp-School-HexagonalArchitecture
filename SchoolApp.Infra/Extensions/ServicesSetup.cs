@@ -2,8 +2,8 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolApp.Domain.Repositories.Commands;
 using SchoolApp.Domain.Repositories.Queries;
-using SchoolApp.Infra.Repositories.PlainFiles.Commands;
-using SchoolApp.Infra.Repositories.PlainFiles.Queries;
+using SchoolApp.Infra.Repositories.JsonFiles.Commands;
+using SchoolApp.Infra.Repositories.JsonFiles.Queries;
 using SchoolApp.Infra.Repositories.Postgres.Commands;
 using SchoolApp.Infra.Repositories.Postgres.Queries;
 using SchoolApp.Infra.Repositories.Redis;
@@ -25,12 +25,12 @@ namespace SchoolApp.Infra.Extensions
             return services;
         }
 
-        public static IServiceCollection SetupPlainFileRepositories (this IServiceCollection services)
+        public static IServiceCollection SetupJsonFilesRepositories (this IServiceCollection services)
         {
             ThrowIfConfigured();
-            services.AddScoped<IStudentQueryRepository, PfStudentQueryRepository>()
-                .AddScoped<IStudentCommandRepository, PfStudentCommandRepository>()
-                .AddScoped<ICourseQueryRepository, PfCourseQueryRepository>()
+            services.AddScoped<IStudentQueryRepository, JsonStudentQueryRepository>()
+                .AddScoped<IStudentCommandRepository, JsonStudentCommandRepository>()
+                .AddScoped<ICourseQueryRepository, JsonCourseQueryRepository>()
             ;
             IsConfigured = true;
             return services;
