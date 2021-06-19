@@ -1,4 +1,4 @@
-# Project - Console Application -  .NET DI/PgSql/Dapper
+# Project - Hexagonal Archtecture - SchoolApplication.
 
 <div>
     <img alt="C# logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaA2RTJJGS7KHl7Lv1HpneTHBKM_yRUp8Q95q5bIGxUOR0axXXidgKzB48bhfhPhPEJVo&usqp=CAU" width="200" height="200">
