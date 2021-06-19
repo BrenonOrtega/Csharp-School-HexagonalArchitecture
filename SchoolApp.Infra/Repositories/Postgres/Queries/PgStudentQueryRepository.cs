@@ -1,5 +1,4 @@
 using Dapper;
-using System;
 using System.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,8 +12,8 @@ namespace SchoolApp.Infra.Repositories.Postgres.Queries
 {
     public class PgStudentQueryRepository : BaseDbRepository, IStudentQueryRepository
     {
-        public override string ConnectionConfigName { get => "postgres"; }
-        public override string ProcedureConfigurationPath => "Procedures:Students:";
+        protected override string ConnectionConfigName { get => "postgres"; }
+        protected override string ProcedureConfigurationPath => "Procedures:Students:";
 
         public PgStudentQueryRepository(IConfiguration config, BaseConnectionHelper helper)
             :base (config, helper)

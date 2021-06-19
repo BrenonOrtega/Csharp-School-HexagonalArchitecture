@@ -14,9 +14,9 @@ namespace SchoolApp.Services.Repositories.Async
 {
     public class PgCourseQueryRepository : BaseDbRepository, ICourseQueryRepository
     {
-        public override string ConnectionConfigName => "postgres";
+        protected override string ConnectionConfigName => "postgres";
 
-        public override string ProcedureConfigurationPath => "Procedures:Courses:";
+        protected override string ProcedureConfigurationPath => "Procedures:Courses:";
 
         public PgCourseQueryRepository(IConfiguration config, BaseConnectionHelper helper) 
             : base(config: config, helper: helper) {

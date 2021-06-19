@@ -13,9 +13,9 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
         {
         }
 
-        public override string ConnectionConfigName => "postgres";
+        protected override string ConnectionConfigName => "postgres";
 
-        public override string ProcedureConfigurationPath => "Procedures:Students:";
+        protected override string ProcedureConfigurationPath => "Procedures:Students:";
 
         public async Task Save(Student entity)
         {
