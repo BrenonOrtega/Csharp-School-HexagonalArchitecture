@@ -27,7 +27,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
         {
             entity.Id = entity.Id != 0 ? entity.Id : RandomNumberGenerator.GetInt32(0,99999);
             var jsonString = JsonSerializer.Serialize(entity, JsonOptions);
-            AppendToFile(jsonString);
+            await AppendToFile(jsonString);
         }
 
         public Task Update(Student entity)
@@ -35,13 +35,13 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
             throw new System.NotImplementedException();
         }
 
-        private async void AppendToFile(string appendString) 
+        private async Task AppendToFile(string appendString) 
         {
             string[] fileLines = await File.ReadAllLinesAsync(PlainFilePath);
             string[] endingLines = { "," , "]" };
-            await File.WriteAllLinesAsync(PlainFilePath, fileLines.Where(x => x != fileLines.Last()).ToArray());
-            await File.AppendAllTextAsync(PlainFilePath, appendString); 
-            await File.AppendAllLinesAsync(PlainFilePath, endingLines);
+            File.WriteAllLines(PlainFilePath, fileLines.Where(x => x != fileLines.Last()).ToArray());
+            File.AppendAllText(PlainFilePath, appendString); 
+            File.AppendAllLines(PlainFilePath, endingLines);
         }
     }
 }

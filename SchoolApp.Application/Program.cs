@@ -22,11 +22,11 @@ namespace SchoolApp.Services
             IConfiguration configuration;
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             configuration = new ConfigurationBuilder()
-                        .SetBasePath(AppContext.BaseDirectory)
-                        .AddJsonFile("appsettings.json", optional:false, reloadOnChange: true)
-                        .AddJsonFile(@$"appsettings.{ environment ?? "Production" }.json", optional: true, reloadOnChange:true)
-                        .AddEnvironmentVariables()
-                        .Build();
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional:false, reloadOnChange: true)
+                .AddJsonFile(@$"appsettings.{ environment ?? "Production" }.json", optional: true, reloadOnChange:true)
+                .AddEnvironmentVariables()
+                .Build();
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
@@ -35,28 +35,26 @@ namespace SchoolApp.Services
                 .CreateLogger();
 
             IHost host = Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) =>  
-                    services.AddTransient<BaseConnectionHelper, PgsqlConnectionHelper>()
-                        .AddScoped<IStudentService, StudentService>()
-                        .SetupPlainFileRepositories()
-                )
+                .ConfigureServices(
+                    (context, services) =>  
+                        services.AddTransient<BaseConnectionHelper, PgsqlConnectionHelper>()
+                            .AddScoped<IStudentService, StudentService>()
+                            .SetupJsonFilesRepositories())
                 .UseSerilog()
                 .Build();
 
             ///<Summary> Testing out directly retrieving and saving a student with the dependency injection container.</Summary>    
-            /* var queryRepository = ActivatorUtilities.CreateInstance<PgStudentQueryRepository>(host.Services);
-            var commandRepository = ActivatorUtilities.CreateInstance<PgStudentCommandRepository>(host.Services); */
             IStudentService studentService = ActivatorUtilities.CreateInstance<StudentService>(host.Services);
-            
 
-            Task.Run(async () =>
-            {
+            Task.Run(async () => {
+                
                 var allstudents =  await studentService.RetrieveMultiple(1, 100);
-                allstudents.ToList().ForEach(x => System.Console.WriteLine(x));
-               /*  allstudents.ToList().ForEach(x => Log.Logger.Information("{student}",x)); */
+                allstudents.ToList().ForEach(x => Log.Logger.Information("{student}",x));
+
                 var newStudent = new StudentCreateDto { LastName = "Test", FirstName = "Json", BirthDate = DateTime.Now, Email = "bryan.test@hotmail.com" };
                 await studentService.Create(newStudent);
                 Log.Logger.Information("Student: {Student}", newStudent);
+
             }).Wait();
 
         }

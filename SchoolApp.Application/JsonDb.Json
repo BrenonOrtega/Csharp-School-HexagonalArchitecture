@@ -109,4 +109,5 @@
 		"CreatedAt": "2021-06-16T10:53:11.5951565Z",
 		"ModifiedAt": "2021-06-16T10:53:11.5951574Z"
 	},
+{"FirstName":"Json","LastName":"Test","BirthDate":"2021-06-19T11:43:15.3546425-03:00","Email":"bryan.test@hotmail.com","Courses":null,"Id":58410,"CreatedAt":"2021-06-19T14:43:15.3558427Z","ModifiedAt":"2021-06-19T14:43:15.3558435Z"},
 ]
