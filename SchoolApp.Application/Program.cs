@@ -7,11 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolApp.Infra.Extensions;
 using SchoolApp.Infra.Helpers.Connections;
-using SchoolApp.Infra.Repositories.Postgres.Queries;
-using SchoolApp.Infra.Repositories.Postgres.Commands;
 using SchoolApp.Application.Services;
 using SchoolApp.Application.Dtos.CreateDtos;
-using SchoolApp.Domain.Repositories.Queries;
 
 namespace SchoolApp.Services
 {
@@ -21,6 +18,7 @@ namespace SchoolApp.Services
         {
             IConfiguration configuration;
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
             configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional:false, reloadOnChange: true)
@@ -55,6 +53,8 @@ namespace SchoolApp.Services
                 await studentService.Create(newStudent);
                 Log.Logger.Information("Student: {Student}", newStudent);
 
+                var studentUpdate = new StudentCreateDto { LastName="updated", FirstName="test", Id=40878, BirthDate= DateTime.Now, Email="TestUpdate@testemail.com.br" };
+                await studentService.Update(studentUpdate);
             }).Wait();
 
         }
