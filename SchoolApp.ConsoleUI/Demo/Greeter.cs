@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
@@ -5,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace SchoolApp.ConsoleUI.Demo
 {
-    
+
     public class Greeter : IGreeter
     {
         private readonly ILogger<Greeter> _logger;

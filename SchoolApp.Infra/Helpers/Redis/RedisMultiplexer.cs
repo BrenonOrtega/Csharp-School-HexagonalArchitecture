@@ -1,4 +1,3 @@
-using System.Data.Common;
 using StackExchange.Redis;
 
 namespace SchoolApp.Infra.Helpers.Redis
