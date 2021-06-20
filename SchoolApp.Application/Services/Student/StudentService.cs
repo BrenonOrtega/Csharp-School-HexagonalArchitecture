@@ -1,35 +1,49 @@
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using SchoolApp.Domain.Repositories.Commands;
 using SchoolApp.Domain.Repositories.Queries;
 using SchoolApp.Application.Dtos.CreateDtos;
 using SchoolApp.Application.Dtos.ReadDtos;
-using System.Linq;
 
 namespace SchoolApp.Application.Services
 {
     public class StudentService : IStudentService
     {
-        private readonly IStudentQueryRepository _queryStudent;
-        private readonly IStudentCommandRepository _commandStudent;
-        private readonly ICourseQueryRepository _queryCourses;
+        private readonly IStudentCommandRepository _studentCommander;
+        private readonly IStudentQueryRepository _studentQuerier;
+        private readonly ICourseQueryRepository _courseQuerier;
 
         public StudentService(
-            IStudentQueryRepository queryStudent, 
-            IStudentCommandRepository commandStudent, 
-            ICourseQueryRepository queryCourses)
+            IStudentQueryRepository studentQuerier, 
+            IStudentCommandRepository studentCommander, 
+            ICourseQueryRepository courseQuerier)
         {
-            _queryStudent = queryStudent;
-            _commandStudent = commandStudent;
-            _queryCourses = queryCourses;
+            _studentQuerier = studentQuerier;
+            _studentCommander = studentCommander;
+            _courseQuerier = courseQuerier;
         }
 
-        public async Task Create(StudentCreateDto createDto)
+        public async Task<StudentReadDto> Retrieve(int id) 
         {
-            await _commandStudent.Save(createDto.ToEntity());
+            var student = await _studentQuerier.GetById(id);
+            return student;
         }
-        
-        public async Task Update(StudentCreateDto createDto) => await _commandStudent.Update(createDto.ToEntity());
+
+        public async Task<IList<StudentReadDto>> RetrieveMultiple(int page, int offset)
+        {
+            var students = await _studentQuerier.GetAll(page, offset);
+            return students.Select(x => new StudentReadDto(x)).ToList();
+        }
+
+        public async Task Create(StudentCreateDto createDto) =>
+            await _studentCommander.Save(createDto);
+
+        public async Task Update(StudentCreateDto createDto) => 
+            await _studentCommander.Update(createDto);
+        public async Task Remove(StudentCreateDto createDto) => 
+            await _studentCommander.Delete(createDto);
+
         public void Leave(CourseReadDto course)
         {
             throw new System.NotImplementedException();
@@ -40,21 +54,6 @@ namespace SchoolApp.Application.Services
             throw new System.NotImplementedException();
         }
 
-        public Task Remove(StudentReadDto entity)
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public async Task<StudentReadDto> Retrieve(int id) 
-        {
-            var student = await _queryStudent.GetById(id);
-            return new StudentReadDto(student);
-        }
-
-        public async Task<IList<StudentReadDto>> RetrieveMultiple(int page, int offset)
-        {
-            var students = await _queryStudent.GetAll(page, offset);
-            return students.Select(x => new StudentReadDto(x)).ToList();
-        }
     }
 }
