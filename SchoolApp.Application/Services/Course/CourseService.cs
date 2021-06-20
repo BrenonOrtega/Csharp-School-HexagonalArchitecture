@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SchoolApp.Application.Dtos.CreateDtos;
 using SchoolApp.Application.Dtos.ReadDtos;
@@ -12,53 +14,52 @@ namespace SchoolApp.Application.Services.Course
         private readonly ICourseCommandRepository _courseCommander;
         private readonly ICourseQueryRepository _courseQuerier;
         private readonly IStudentQueryRepository _studentQuerier;
-        private readonly ICategoryQueryRepository _categoryQuerier;
 
 
         public CourseService(
             ICourseCommandRepository courseCommander, 
             ICourseQueryRepository courseQuerier, 
-            IStudentQueryRepository studentQuerier, 
-            ICategoryQueryRepository categoryQuerier)
+            IStudentQueryRepository studentQuerier
+        )
         {
             _courseCommander = courseCommander;
             _courseQuerier = courseQuerier;
             _studentQuerier = studentQuerier;
-            _categoryQuerier = categoryQuerier;
+            //_categoryQuerier = categoryQuerier;
         }
-
+        public async Task<IList<CourseReadDto>> RetrieveMultiple(int page=0, int entriesCount=20)
+        {
+            var courses = await _courseQuerier.GetAll(page, entriesCount);
+            return courses.Select(course => new CourseReadDto(course)).ToList();
+        }
+        
         public async Task<CourseReadDto> Retrieve(int id)
         {
             var course = await _courseQuerier.GetById(id);
             return course;
         }
 
-        public Task<IList<CourseReadDto>> RetrieveMultiple(int page, int offset)
+        public async Task Create(CourseCreateDto createDto)
         {
-            throw new System.NotImplementedException();
-        }
-        public Task Create(CourseCreateDto createDto)
-        {
-            throw new System.NotImplementedException();
+            await _courseCommander.Save(createDto);
         }
 
-        public void Enroll(StudentReadDto student)
+        public async Task Remove(CourseCreateDto readDto)
         {
-            throw new System.NotImplementedException();
+            await _courseCommander.Delete(readDto);
         }
 
-        public void Expell(StudentReadDto student)
+        public async Task Update(CourseCreateDto createDto)
         {
-            throw new System.NotImplementedException();
+            await _courseCommander.Update(createDto);
         }
 
-        public Task Remove(CourseCreateDto readDto)
+        public async Task<IEnumerable<StudentReadDto>> GetStudents(CourseReadDto course)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-
-        public Task Update(CourseCreateDto createDto)
+        public void AddStudent(StudentReadDto student)
         {
             throw new System.NotImplementedException();
         }
