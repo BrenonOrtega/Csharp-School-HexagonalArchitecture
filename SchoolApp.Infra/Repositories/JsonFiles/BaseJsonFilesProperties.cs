@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using SchoolApp.Infra.Extensions;
-using SchoolApp.Domain.Entities;
 
 namespace SchoolApp.Infra.Repositories.JsonFiles
 {
@@ -15,10 +14,10 @@ namespace SchoolApp.Infra.Repositories.JsonFiles
         protected readonly IConfiguration _config;
         protected readonly ILogger _logger; 
         protected readonly string JsonFilePath;
-        protected abstract string ConfigFileKey { get; }
-
         private readonly JsonSerializerOptions _baseJsonOptions;
-        protected virtual JsonSerializerOptions JsonOptions=> _baseJsonOptions;
+        
+        protected virtual JsonSerializerOptions BaseJsonOptions{ get => _baseJsonOptions; } 
+        protected abstract string ConfigFileKey { get; }
 
         protected BaseJsonFilesProperties(IConfiguration config, ILogger logger)
         {
@@ -34,16 +33,8 @@ namespace SchoolApp.Infra.Repositories.JsonFiles
         protected async Task<IEnumerable<T>> GetEntries()
         {
             var jsonFile = await File.ReadAllTextAsync(JsonFilePath);
-            var entries = JsonSerializer.Deserialize<IEnumerable<T>>(jsonFile, JsonOptions);
+            var entries = JsonSerializer.Deserialize<IEnumerable<T>>(jsonFile, BaseJsonOptions);
             return entries;
-        }
-
-        protected async Task Execute(
-            Func<Student, Task<string>> command,
-            Student student)
-        {
-            var newContent = await command.Invoke(student);
-            await File.WriteAllTextAsync(JsonFilePath, newContent);
         }
     }
 }
