@@ -31,6 +31,7 @@ namespace SchoolApp.Infra.Extensions
             services.AddScoped<IStudentQueryRepository, JsonStudentQueryRepository>()
                 .AddScoped<IStudentCommandRepository, JsonStudentCommandRepository>()
                 .AddScoped<ICourseQueryRepository, JsonCourseQueryRepository>()
+                .AddScoped<ICourseCommandRepository, JsonCourseCommandRepository>()
             ;
             IsConfigured = true;
             return services;
