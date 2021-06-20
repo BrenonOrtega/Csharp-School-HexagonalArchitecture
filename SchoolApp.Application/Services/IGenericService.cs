@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SchoolApp.Application.Services
 {
@@ -11,6 +11,6 @@ namespace SchoolApp.Application.Services
         Task<IList<ReadDto>> RetrieveMultiple(int page, int offset);
         Task Create(CreateDto createDto);
         Task Update(CreateDto createDto);
-        Task Remove(ReadDto readDto);
+        Task Remove(CreateDto readDto);
     }
 }
