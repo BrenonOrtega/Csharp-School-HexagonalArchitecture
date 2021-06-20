@@ -13,7 +13,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
     {
         protected override string ConfigFileKey => "CourseFile";
 
-        public JsonCourseQueryRepository(IConfiguration config, ILogger logger) : base(config, logger)
+        public JsonCourseQueryRepository(IConfiguration config, ILogger<JsonCourseQueryRepository> logger) : base(config, logger)
         {
         }
 
