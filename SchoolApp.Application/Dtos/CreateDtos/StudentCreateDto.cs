@@ -11,9 +11,9 @@ namespace SchoolApp.Application.Dtos.CreateDtos
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public static implicit operator Student(StudentCreateDto dto)
-        {
-            return new Student(){ 
+        public static implicit operator Student(StudentCreateDto dto) =>
+            new Student()
+            { 
                 Id = dto.Id, 
                 FirstName = dto.FirstName, 
                 LastName = dto.LastName, 
@@ -21,7 +21,6 @@ namespace SchoolApp.Application.Dtos.CreateDtos
                 Email = dto.Email,
                 ModifiedAt = DateTime.Now
             };
-        }
     }
 
 }
