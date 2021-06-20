@@ -9,7 +9,7 @@ using SchoolApp.Domain.ValueObjects;
 
 namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
 {
-    public abstract class BaseJsonQueryRepository<T> : BaseJsonFilesProperties<T>, IQueryRepository<T> where T: BaseEntity
+    public abstract class BaseJsonQueryRepository<T> : JsonRepositoryProperties<T>, IQueryRepository<T> where T: BaseEntity
     {
         public BaseJsonQueryRepository(IConfiguration config, ILogger logger) : base(config, logger)
         {
@@ -39,7 +39,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
         private IEnumerable<T> GetPaginatedEntries(IList<T> entityList, int queryOffset, int toRetrieveCount)
         {
             var paginatedEntries = entityList
-                .Where(entity => entityList.IndexOf(entity) < queryOffset)
+                .Where(entity => entityList.IndexOf(entity) >= queryOffset)
                 .Take(toRetrieveCount);
             return paginatedEntries;
         }
@@ -47,7 +47,8 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
         public virtual async Task<T> GetById(int id)
         {
             var enumeratedEntities = await GetEntries();
-            return enumeratedEntities.SingleOrDefault(x => x.Id == id);
+            var queried = enumeratedEntities.SingleOrDefault(x => x.Id == id);
+            return queried ?? throw new KeyNotFoundException($"Id { id } does not exist in storage.");
         }
     }
 }
