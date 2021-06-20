@@ -1,8 +1,7 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using SchoolApp.Domain.Entities;
 using SchoolApp.Application.Dtos.ReadDtos.StudentDtos;
+using SchoolApp.Domain.Entities;
 
 namespace SchoolApp.Application.Dtos.ReadDtos
 {
@@ -14,6 +13,8 @@ namespace SchoolApp.Application.Dtos.ReadDtos
         public DateTime BirthDate { get; }
         public string Email { get; }
         public IList<StudentCourseDto> Courses { get; }
+
+        public StudentReadDto() {  }
         public StudentReadDto(Student student)
         {
             Id = student.Id;
@@ -21,8 +22,9 @@ namespace SchoolApp.Application.Dtos.ReadDtos
             LastName = student.LastName;
             BirthDate = student.BirthDate;
             Email = student.Email;
-            //Courses = student.Courses.Select(course => new StudentCourseDto(course)).ToList();
         }
+
+        public static implicit operator StudentReadDto(Student student) => new StudentReadDto(student);
 
         public override string ToString() => $"Student:{FirstName} {LastName} - Id:{Id} - Email: {Email}";
     }

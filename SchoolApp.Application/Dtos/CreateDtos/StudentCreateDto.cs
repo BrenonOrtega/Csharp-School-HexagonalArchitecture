@@ -11,16 +11,17 @@ namespace SchoolApp.Application.Dtos.CreateDtos
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
 
-        internal Student ToEntity()
+        public static implicit operator Student(StudentCreateDto dto)
         {
-            return new Student()
-            {
-                Id = this.Id,
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                BirthDate = this.BirthDate,
-                Email = this.Email
+            return new Student(){ 
+                Id = dto.Id, 
+                FirstName = dto.FirstName, 
+                LastName = dto.LastName, 
+                BirthDate = dto.BirthDate, 
+                Email = dto.Email,
+                ModifiedAt = DateTime.Now
             };
         }
     }
+
 }
