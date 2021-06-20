@@ -30,23 +30,10 @@ namespace SchoolApp.Application.Services
             return student;
         }
 
-        public async Task<IList<StudentReadDto>> RetrieveMultiple(int page, int offset)
+        public async Task<IList<StudentReadDto>> RetrieveMultiple(int page, int entriesCount)
         {
-            var students = await _studentQuerier.GetAll(page, offset);
+            var students = await _studentQuerier.GetAll(page, entriesCount);
             return students.Select(x => new StudentReadDto(x)).ToList();
-        }
-
-        public async Task Create(StudentCreateDto createDto) =>
-            await _studentCommander.Save(createDto);
-
-        public async Task Update(StudentCreateDto createDto) => 
-            await _studentCommander.Update(createDto);
-        public async Task Remove(StudentCreateDto createDto) => 
-            await _studentCommander.Delete(createDto);
-
-        public void Leave(CourseReadDto course)
-        {
-            throw new System.NotImplementedException();
         }
 
         public Task<IList<CourseReadDto>> RetrieveCourses(StudentReadDto student)
@@ -54,6 +41,13 @@ namespace SchoolApp.Application.Services
             throw new System.NotImplementedException();
         }
 
+        public async Task Create(StudentCreateDto createDto) =>
+            await _studentCommander.Save(createDto);
 
+        public async Task Update(StudentCreateDto createDto) => 
+            await _studentCommander.Update(createDto);
+
+        public async Task Remove(StudentCreateDto createDto) => 
+            await _studentCommander.Delete(createDto);
     }
 }
