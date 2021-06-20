@@ -1,26 +1,27 @@
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using SchoolApp.Domain.Entities;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using SchoolApp.Domain.Repositories.Queries;
 using SchoolApp.Domain.ValueObjects;
+using SchoolApp.Domain.Entities;
 
 namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
 {
-    public class JsonCourseQueryRepository : ICourseQueryRepository
+    public class JsonCourseQueryRepository : BaseJsonQueryRepository<Course>, ICourseQueryRepository
     {
-        public Task<IEnumerable<Course>> GetAll(int page, int rowCount)
+        protected override string ConfigFileKey => "CourseFile";
+
+        public JsonCourseQueryRepository(IConfiguration config, ILogger logger) : base(config, logger)
         {
-            throw new System.NotImplementedException();
         }
 
-        public Task<Course> GetById(int id)
+        public override async Task<IEnumerable<Course>> GetByName(Name name)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Course> GetByName(Name name)
-        {
-            throw new System.NotImplementedException();
+            var courses = await GetEntries();
+            var queriedCourses = courses.Where(course => course.Name.Equals(name));
+            return queriedCourses;
         }
     }
 }
