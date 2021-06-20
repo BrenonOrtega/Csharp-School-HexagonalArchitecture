@@ -36,7 +36,7 @@ namespace SchoolApp.Infra.Repositories.Redis
             throw new System.NotImplementedException();
         }
 
-        public Task<Student> GetByName(Name name)
+        public Task<IEnumerable<Student>> GetByName(Name name)
         {
             throw new System.NotImplementedException();
         }

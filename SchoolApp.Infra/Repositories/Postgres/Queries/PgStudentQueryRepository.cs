@@ -39,13 +39,12 @@ namespace SchoolApp.Infra.Repositories.Postgres.Queries
             return student ?? throw new DataException();       
         }
 
-        public async Task<Student> GetByName(Name name)
+        public async Task<IEnumerable<Student>> GetByName(Name name)
         {
             var sql = $"SELECT * FROM public.aluno a WHERE a.primeiro_nome ILIKE @name OR a.ultimo_nome ILIKE @name";
-
             using var cnn = _helper.GetConnection(_connectionString);
-            var student = await cnn.QuerySingleOrDefaultAsync<Student>(sql: sql, param: new { name = (string)name });
+            var student = await cnn.QueryAsync<Student>(sql: sql, param: new { name = (string) name });
             return student;
-        }      
+        }
     }
 }

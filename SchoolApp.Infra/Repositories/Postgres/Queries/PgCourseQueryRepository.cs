@@ -41,7 +41,7 @@ namespace SchoolApp.Services.Repositories.Async
             return course;
         }
 
-        public Task<Course> GetByName(Name name)
+        public Task<IEnumerable<Course>> GetByName(Name name)
         {
             throw new NotImplementedException();
         }
