@@ -11,7 +11,17 @@ namespace SchoolApp.Application.Dtos.ReadDtos
         public IList<CourseStudentDto> Students{ get; set; }
         public IList<CourseCategoryDto> Categories { get; set; }
 
+        public CourseReadDto() {  }
+        
+        public CourseReadDto(Course course)
+        {
+            Id = course.Id;
+            Name = course.Name;
+        }
+
         public static implicit operator CourseReadDto(Course course) =>
-            new CourseReadDto{ Id = course.Id, Name = course.Name };
+            new CourseReadDto(course);
+
+        public override string ToString() => $"Course: { Name } - Id: { Id }.";
     }
 }
