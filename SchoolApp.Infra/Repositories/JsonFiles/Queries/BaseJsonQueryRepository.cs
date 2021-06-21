@@ -48,7 +48,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
         {
             var enumeratedEntities = await GetEntries();
             var queried = enumeratedEntities.SingleOrDefault(x => x.Id == id);
-            return queried ?? throw new KeyNotFoundException($"Id { id } does not exist in storage.");
+            return queried;
         }
     }
 }
