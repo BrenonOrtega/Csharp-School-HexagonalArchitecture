@@ -20,7 +20,8 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
         public async Task Update(T entity)
         {
             entity.ModifiedAt = DateTime.Now;
-            await Task.WhenAll(Delete(entity), Save(entity));
+            await Delete(entity);
+            await Save(entity);
         }
         public async Task Save(T entity)
         {
