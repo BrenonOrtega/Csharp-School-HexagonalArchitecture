@@ -10,7 +10,7 @@ namespace SchoolApp.Application.Services
         Task<ReadDto> Retrieve(int id);
         Task<IList<ReadDto>> RetrieveMultiple(int page, int entriesCount);
         Task Create(CreateDto createDto);
-        Task Update(CreateDto createDto);
+        Task Update(ReadDto createDto);
         Task Remove(CreateDto readDto);
     }
 }

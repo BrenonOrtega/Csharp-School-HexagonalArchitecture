@@ -49,9 +49,9 @@ namespace SchoolApp.Application.Services.Course
             await _courseCommander.Delete(readDto);
         }
 
-        public async Task Update(CourseCreateDto createDto)
+        public async Task Update(CourseReadDto readDto)
         {
-            await _courseCommander.Update(createDto);
+            await _courseCommander.Update(readDto);
         }
 
         public async Task<IEnumerable<StudentReadDto>> GetStudents(CourseReadDto course)

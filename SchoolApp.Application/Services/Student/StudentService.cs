@@ -44,7 +44,7 @@ namespace SchoolApp.Application.Services
         public async Task Create(StudentCreateDto createDto) =>
             await _studentCommander.Save(createDto);
 
-        public async Task Update(StudentCreateDto createDto) => 
+        public async Task Update(StudentReadDto createDto) => 
             await _studentCommander.Update(createDto);
 
         public async Task Remove(StudentCreateDto createDto) => 
