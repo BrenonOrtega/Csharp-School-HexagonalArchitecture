@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SchoolApp.Domain.Entities;
+using SchoolApp.Domain.ValueObjects;
 using SchoolApp.Application.Dtos.ReadDtos.CourseDtos;
 
 namespace SchoolApp.Application.Dtos.ReadDtos
@@ -21,6 +22,9 @@ namespace SchoolApp.Application.Dtos.ReadDtos
 
         public static implicit operator CourseReadDto(Course course) =>
             new CourseReadDto(course);
+
+        public static implicit operator Course(CourseReadDto dto) =>
+            new Course() {Id = dto.Id, Name = dto.Name };
 
         public override string ToString() => $"Course: { Name } - Id: { Id }.";
     }
