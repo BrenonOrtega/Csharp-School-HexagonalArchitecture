@@ -2,13 +2,16 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolApp.Infra.Extensions;
 using SchoolApp.Infra.Helpers.Connections;
-using SchoolApp.Application.Services;
 using SchoolApp.Application.Dtos.CreateDtos;
+using SchoolApp.Application.Services.Course;
+using SchoolApp.Application.Services;
+using SchoolApp.Application.Demo;
 
 namespace SchoolApp.Services
 {
@@ -35,7 +38,6 @@ namespace SchoolApp.Services
             IHost host = Host.CreateDefaultBuilder()
                 .ConfigureServices(
                     (context, services) =>  
-                        services.AddTransient<BaseConnectionHelper, PgsqlConnectionHelper>()
                             .AddScoped<IStudentService, StudentService>()
                             .SetupJsonFilesRepositories())
                 .UseSerilog()
@@ -43,20 +45,13 @@ namespace SchoolApp.Services
 
             ///<Summary> Testing out directly retrieving and saving a student with the dependency injection container.</Summary>    
             IStudentService studentService = ActivatorUtilities.CreateInstance<StudentService>(host.Services);
+            ICourseService courseService = ActivatorUtilities.CreateInstance<CourseService>(host.Services);
 
             Task.Run(async () => {
-                
-                var allstudents =  await studentService.RetrieveMultiple(1, 100);
-                allstudents.ToList().ForEach(x => Log.Logger.Information("{student}",x));
+                await StudentServiceDemo.Run(studentService);
 
-                var newStudent = new StudentCreateDto { LastName = "Test", FirstName = "Json", BirthDate = DateTime.Now, Email = "bryan.test@hotmail.com" };
-                await studentService.Create(newStudent);
-                Log.Logger.Information("Student: {Student}", newStudent);
-
-                var studentUpdate = new StudentCreateDto { LastName="updated", FirstName="test", Id=40878, BirthDate= DateTime.Now, Email="TestUpdate@testemail.com.br" };
-                await studentService.Update(studentUpdate);
+                await CourseServiceDemo.Run(courseService);
             }).Wait();
-
         }
     }
 }

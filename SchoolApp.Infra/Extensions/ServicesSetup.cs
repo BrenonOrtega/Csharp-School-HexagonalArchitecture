@@ -17,7 +17,8 @@ namespace SchoolApp.Infra.Extensions
         public static IServiceCollection SetupPostgresRepositories(this IServiceCollection services)
         {
             ThrowIfConfigured();
-            services.AddScoped<IStudentQueryRepository, PgStudentQueryRepository>()
+            services.AddTransient<BaseConnectionHelper, PgsqlConnectionHelper>()
+                .AddScoped<IStudentQueryRepository, PgStudentQueryRepository>()
                 .AddScoped<IStudentCommandRepository, PgStudentCommandRepository>()
                 .AddScoped<ICourseQueryRepository, PgCourseQueryRepository>()
             ;
