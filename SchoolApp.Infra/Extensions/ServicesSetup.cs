@@ -2,6 +2,7 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolApp.Domain.Repositories.Commands;
 using SchoolApp.Domain.Repositories.Queries;
+using SchoolApp.Infra.Helpers.Connections;
 using SchoolApp.Infra.Repositories.JsonFiles.Commands;
 using SchoolApp.Infra.Repositories.JsonFiles.Queries;
 using SchoolApp.Infra.Repositories.Postgres.Commands;
