@@ -25,7 +25,7 @@ namespace SchoolApp.Services.Repositories.Async
 
         public Task<IEnumerable<Course>> GetAll(int page, int rowCount)
         {
-            var sql = "SELECT * FROM public.curso";
+            var sql = "SELECT c.id as Id, c.nome as Name FROM public.curso c";
             using var cnn = _helper.GetConnection(_connectionString);
             
             var courses = cnn.QueryAsync<Course>(sql);
@@ -34,7 +34,7 @@ namespace SchoolApp.Services.Repositories.Async
 
         public Task<Course> GetById(int id)
         {
-            var sql = "SELECT * FROM public.curso WHERE curso.id=@id";
+            var sql = "SELECT c.id as Id, c.nome as Name FROM public.curso c WHERE c.id=@id";
             using var cnn = _helper.GetConnection(_connectionString);
             
             var course = cnn.QueryFirstOrDefaultAsync<Course>(sql: sql, param: new { id });
