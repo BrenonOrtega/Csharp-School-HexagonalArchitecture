@@ -24,10 +24,12 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
             using var cnn = _helper.GetConnection(_connectionString);
             await cnn.QueryAsync(
                 sql: sql, 
-                param: new { FirstName = (string) entity.FirstName, 
-                                LastName = (string) entity.LastName ,
-                                BirthDate = entity.BirthDate }
-            );
+                param: new { 
+                    FirstName = (string) entity.FirstName, 
+                    LastName = (string) entity.LastName ,
+                    BirthDate = entity.BirthDate,
+                    Email = (string)entity.Email 
+            });
         }
 
         public Task Delete(Student entity)
@@ -35,9 +37,19 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
             throw new System.NotImplementedException();
         }
 
-        public Task Update(Student entity)
+        public async Task Update(Student entity)
         {
-            throw new System.NotImplementedException();
+            var sql = _config.GetValue<string>(ProcedureConfigurationPath + nameof(Save));
+
+            using var cnn = _helper.GetConnection(_connectionString);
+            await cnn.QueryAsync(
+                sql: sql,
+                param: new {
+                    FirstName = (string)entity.FirstName,
+                    LastName = (string)entity.LastName,
+                    BirthDate = entity.BirthDate,
+                    Email = (string)entity.Email
+            });
         }
     }
 }
