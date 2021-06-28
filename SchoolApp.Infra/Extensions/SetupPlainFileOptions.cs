@@ -7,7 +7,7 @@ namespace SchoolApp.Infra.Extensions
     {
         public static JsonSerializerOptions SetupValueObjects(this JsonSerializerOptions options)
         {
-            options.AllowTrailingCommas=true;
+            options.AllowTrailingCommas = true;
             options.Converters.Add(new NameJsonConverter());
             options.Converters.Add(new EmailJsonConverter());
             return options;

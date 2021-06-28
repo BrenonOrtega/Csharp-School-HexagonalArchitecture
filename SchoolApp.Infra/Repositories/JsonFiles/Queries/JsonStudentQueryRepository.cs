@@ -12,8 +12,8 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
     public class JsonStudentQueryRepository : BaseJsonQueryRepository<Student>, IStudentQueryRepository
     {
         protected override string ConfigFileKey => "StudentFile";
-        
-        public JsonStudentQueryRepository(IConfiguration config, ILogger<JsonStudentQueryRepository> logger) 
+
+        public JsonStudentQueryRepository(IConfiguration config, ILogger<JsonStudentQueryRepository> logger)
             : base(config, logger)
         {
         }

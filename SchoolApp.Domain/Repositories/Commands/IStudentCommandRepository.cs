@@ -5,6 +5,6 @@ namespace SchoolApp.Domain.Repositories.Commands
 {
     public interface IStudentCommandRepository : ICommandRepository<Student>
     {
-        
+
     }
 }

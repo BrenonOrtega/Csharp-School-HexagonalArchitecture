@@ -14,7 +14,7 @@ namespace SchoolApp.Infra.Extensions
 {
     public static class ServicesSetup
     {
-        private static bool IsConfigured { get; set ;}
+        private static bool IsConfigured { get; set; }
         public static IServiceCollection SetupPostgresRepositories(this IServiceCollection services)
         {
             ThrowIfConfigured();
@@ -27,7 +27,7 @@ namespace SchoolApp.Infra.Extensions
             return services;
         }
 
-        public static IServiceCollection SetupJsonFilesRepositories (this IServiceCollection services)
+        public static IServiceCollection SetupJsonFilesRepositories(this IServiceCollection services)
         {
             ThrowIfConfigured();
             services.AddScoped<IStudentQueryRepository, JsonStudentQueryRepository>()
@@ -44,17 +44,17 @@ namespace SchoolApp.Infra.Extensions
             ThrowIfConfigured();
             services.AddScoped<IStudentCommandRepository, RedisStudentRepository>()
                 .AddScoped<IStudentQueryRepository, RedisStudentRepository>()
-                .AddScoped<RedisStudentRepository>();   
+                .AddScoped<RedisStudentRepository>();
             ;
             IsConfigured = true;
             return services;
         }
 
-        private static void ThrowIfConfigured() 
-        {   
-            if (IsConfigured) 
-                throw new InvalidOperationException("Infrastructure cannot be configured more than once"); 
+        private static void ThrowIfConfigured()
+        {
+            if (IsConfigured)
+                throw new InvalidOperationException("Infrastructure cannot be configured more than once");
         }
-        
+
     }
 }

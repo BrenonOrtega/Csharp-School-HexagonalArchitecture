@@ -9,8 +9,8 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
     {
         protected override string ConfigFileKey => "StudentFile";
 
-        public JsonStudentCommandRepository(IConfiguration config, ILogger<JsonStudentCommandRepository> logger) 
-            : base(config,logger)
+        public JsonStudentCommandRepository(IConfiguration config, ILogger<JsonStudentCommandRepository> logger)
+            : base(config, logger)
         {
         }
 

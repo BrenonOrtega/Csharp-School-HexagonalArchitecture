@@ -17,6 +17,6 @@ namespace SchoolApp.Application.Dtos.ReadDtos
             Id = model.Id;
             Name = model.Name;
             Courses = model.Courses.Select(course => new CategoryCourseDto(course)).ToList();
-        }   
+        }
     }
 }

@@ -10,12 +10,12 @@ namespace SchoolApp.Infra.Repositories.JsonFiles
         public override Name Read(
             ref Utf8JsonReader reader,
             Type typeToConvert,
-            JsonSerializerOptions options) 
+            JsonSerializerOptions options)
         {
             if (reader.TokenType.Equals(JsonTokenType.String))
             {
                 var text = reader.GetString();
-                return new Name ( text ) ;
+                return new Name(text);
             }
             return null;
         }

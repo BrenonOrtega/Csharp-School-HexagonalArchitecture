@@ -11,7 +11,7 @@ using SchoolApp.Domain.Repositories.Shared;
 
 namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
 {
-    public abstract class BaseJsonCommandRepository<T> : JsonRepositoryProperties<T>, ICommandRepository<T> where T: BaseEntity
+    public abstract class BaseJsonCommandRepository<T> : JsonRepositoryProperties<T>, ICommandRepository<T> where T : BaseEntity
     {
         protected BaseJsonCommandRepository(IConfiguration config, ILogger logger) : base(config, logger)
         {
@@ -25,7 +25,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
         }
         public async Task Save(T entity)
         {
-            entity.Id = entity.Id != 0 ? entity.Id : RandomNumberGenerator.GetInt32(0,99999);
+            entity.Id = entity.Id != 0 ? entity.Id : RandomNumberGenerator.GetInt32(0, 99999);
             await Execute(InsertEntity, entity);
         }
 
@@ -36,7 +36,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Commands
             return JsonSerializer.Serialize(allEntities, BaseJsonOptions);
         }
 
-        public async Task Delete(T entity) => 
+        public async Task Delete(T entity) =>
             await Execute(RemoveEntity, entity);
 
         protected virtual async Task<string> RemoveEntity(T entityToRemove)

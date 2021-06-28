@@ -10,20 +10,21 @@
 ## Objective
 
 Development of a study application project that implements C# concepts like:
- - Configuration files.
- - Dependency Injection containers.
- - Logging.
- - Extension Methods.
- - Repository Pattern.
- - ORM Utilization.
- - Data Relationships.
+
+- Configuration files.
+- Dependency Injection containers.
+- Logging.
+- Extension Methods.
+- Repository Pattern.
+- ORM Utilization.
+- Data Relationships.
 
 ## Technologies
 
- - [Dapper](https://dapperlib.github.io/Dapper/)
- - [Serilog](https://serilog.net/)
- - [Npgsql](https://www.npgsql.org/)
- - [PostgreSQL](https://www.postgresql.org/)
+- [Dapper](https://dapperlib.github.io/Dapper/)
+- [Serilog](https://serilog.net/)
+- [Npgsql](https://www.npgsql.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Study Material
 
@@ -54,49 +55,53 @@ With this we're able to use the appsettings.json file to passa parameters to our
 The Creation of C# Extension Methods enables us to create new behaviors for a type of object that we're using, it's a thing pretty common in .NET applications since System.Linq is a must when working with databases or collections and it is an extension methods for interfaces that implement IEnumerable, ICollection, IQueryable and so forth.
 
 To create an extension methods we need to follow some rules like:
- - The class that have the extension method must be a static class.
- - The method should know the type of object that it is extending.
- - In case of objects that implement builder patterns or fluentAPI the methoud should return the object itself.
- - the use of "this" alongside the method argument.
 
- ```CSharp  
-    public static class ConfigurationBuilderSetup
-    {
-        public static IConfigurationBuilder SetupConfig(this IConfigurationBuilder builder)
-        {
-            //Implementation of the method here.
-            return builder;
-        }
-    }
- ```
+- The class that have the extension method must be a static class.
+- The method should know the type of object that it is extending.
+- In case of objects that implement builder patterns or fluentAPI the methoud should return the object itself.
+- the use of "this" alongside the method argument.
 
+```CSharp
+   public static class ConfigurationBuilderSetup
+   {
+       public static IConfigurationBuilder SetupConfig(this IConfigurationBuilder builder)
+       {
+           //Implementation of the method here.
+           return builder;
+       }
+   }
+```
 
- ### Repository Pattern
-
-(To be written)
-
- ### ORM Utilization
+### Repository Pattern
 
 (To be written)
 
- ### Data Relationships
+### ORM Utilization
+
+(To be written)
+
+### Data Relationships
 
 (To be written)
 
 ## Issues during development
+
 ### PostgreSQL
 
- - System.Data.DateTime converts directly to postgresql "timestamp without timezone" data type so a function with input "date" data type cannot insert it in a direct conversion, so turning the input data type to "timestamp" enabled to pass directly System.Data.DateTime to the postgre function and it would insert correctly, and stills return a table with "date" fields to dapper mapping function withou any more problems.
+- System.Data.DateTime converts directly to postgresql "timestamp without timezone" data type so a function with input "date" data type cannot insert it in a direct conversion, so turning the input data type to "timestamp" enabled to pass directly System.Data.DateTime to the postgre function and it would insert correctly, and stills return a table with "date" fields to dapper mapping function withou any more problems.
 
- - When using functions in postgre (or stored procedures in other db's) you should be aware of the kind of data that will be returned from each call. Dapper was not properly mapping Repository.GetAll method data return because in my db function call i did not asked for all fields that my function returns
- ```sql
- -- RETURNS THE FUNCTION CALL OR "A RECORD"
+- When using functions in postgre (or stored procedures in other db's) you should be aware of the kind of data that will be returned from each call. Dapper was not properly mapping Repository.GetAll method data return because in my db function call i did not asked for all fields that my function returns
+
+```sql
+-- RETURNS THE FUNCTION CALL OR "A RECORD"
 SELECT public.getallstudents(paging_page:=page, paging_size:=size);
- ```
- this did return me a "record", but was not returning the table with the fields, since the script was created to return a table with fields matching my model properties the correct function call is as follow:
+```
 
- ```SQL
- -- RETURNS A TABLE CONTAINING "Id, FirstName, LastName, BirthDate" so dapper can do the entity mapping on it.
- SELECT * FROM public.getallstudents(paging_page:=page, paging_size:=size);
- ```
- ### A Huge thanks to [Tim Corey](https://github.com/TimCorey) and to [Andre Secco](https://github.com/andreluizsecco) for their teachings and for the content that they produce. <br/> Follow their channels for high quality .NET and general development content.
+this did return me a "record", but was not returning the table with the fields, since the script was created to return a table with fields matching my model properties the correct function call is as follow:
+
+```SQL
+-- RETURNS A TABLE CONTAINING "Id, FirstName, LastName, BirthDate" so dapper can do the entity mapping on it.
+SELECT * FROM public.getallstudents(paging_page:=page, paging_size:=size);
+```
+
+### A Huge thanks to [Tim Corey](https://github.com/TimCorey) and to [Andre Secco](https://github.com/andreluizsecco) for their teachings and for the content that they produce. <br/> Follow their channels for high quality .NET and general development content.

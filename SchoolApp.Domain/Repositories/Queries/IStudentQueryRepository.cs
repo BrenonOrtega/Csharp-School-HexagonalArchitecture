@@ -5,6 +5,6 @@ namespace SchoolApp.Domain.Repositories.Queries
 {
     public interface IStudentQueryRepository : IQueryRepository<Student>
     {
-        
+
     }
 }

@@ -18,25 +18,26 @@ namespace SchoolApp.Services.Repositories.Async
 
         protected override string ProcedureConfigurationPath => "Procedures:Courses:";
 
-        public PgCourseQueryRepository(IConfiguration config, BaseConnectionHelper helper) 
-            : base(config: config, helper: helper) {
-            
+        public PgCourseQueryRepository(IConfiguration config, BaseConnectionHelper helper)
+            : base(config: config, helper: helper)
+        {
+
         }
 
         public Task<IEnumerable<Course>> GetAll(int page, int rowCount)
         {
             var sql = "SELECT c.id as Id, c.nome as Name FROM public.curso c";
             using var cnn = _helper.GetConnection(_connectionString);
-            
+
             var courses = cnn.QueryAsync<Course>(sql);
-            return courses;      
+            return courses;
         }
 
         public Task<Course> GetById(int id)
         {
             var sql = "SELECT c.id as Id, c.nome as Name FROM public.curso c WHERE c.id=@id";
             using var cnn = _helper.GetConnection(_connectionString);
-            
+
             var course = cnn.QueryFirstOrDefaultAsync<Course>(sql: sql, param: new { id });
             return course;
         }

@@ -17,8 +17,8 @@ namespace SchoolApp.Application.Services.Course
 
 
         public CourseService(
-            ICourseCommandRepository courseCommander, 
-            ICourseQueryRepository courseQuerier, 
+            ICourseCommandRepository courseCommander,
+            ICourseQueryRepository courseQuerier,
             IStudentQueryRepository studentQuerier
         )
         {
@@ -27,12 +27,12 @@ namespace SchoolApp.Application.Services.Course
             _studentQuerier = studentQuerier;
             //_categoryQuerier = categoryQuerier;
         }
-        public async Task<IList<CourseReadDto>> RetrieveMultiple(int page=0, int entriesCount=20)
+        public async Task<IList<CourseReadDto>> RetrieveMultiple(int page = 0, int entriesCount = 20)
         {
             var courses = await _courseQuerier.GetAll(page, entriesCount);
             return courses.Select(course => new CourseReadDto(course)).ToList();
         }
-        
+
         public async Task<CourseReadDto> Retrieve(int id)
         {
             var course = await _courseQuerier.GetById(id);

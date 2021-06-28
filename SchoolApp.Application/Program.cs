@@ -2,16 +2,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SchoolApp.Infra.Extensions;
-using SchoolApp.Infra.Helpers.Connections;
-using SchoolApp.Application.Dtos.CreateDtos;
-using SchoolApp.Application.Services.Course;
 using SchoolApp.Application.Services;
 using SchoolApp.Application.Demo;
+using SchoolApp.Infra.Extensions;
+using SchoolApp.Application.Services.Course;
 
 namespace SchoolApp.Services
 {
@@ -24,8 +21,8 @@ namespace SchoolApp.Services
 
             configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional:false, reloadOnChange: true)
-                .AddJsonFile(@$"appsettings.{ environment ?? "Production" }.json", optional: true, reloadOnChange:true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile(@$"appsettings.{ environment ?? "Production" }.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
 
@@ -36,10 +33,9 @@ namespace SchoolApp.Services
                 .CreateLogger();
 
             IHost host = Host.CreateDefaultBuilder()
-                .ConfigureServices(
-                    (context, services) =>  
-                            .AddScoped<IStudentService, StudentService>()
-                            .SetupJsonFilesRepositories())
+                .ConfigureServices((context, services) =>
+                    services.AddScoped<IStudentService, StudentService>()
+                        .SetupJsonFilesRepositories())
                 .UseSerilog()
                 .Build();
 
@@ -47,7 +43,8 @@ namespace SchoolApp.Services
             IStudentService studentService = ActivatorUtilities.CreateInstance<StudentService>(host.Services);
             ICourseService courseService = ActivatorUtilities.CreateInstance<CourseService>(host.Services);
 
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 await StudentServiceDemo.Run(studentService);
 
                 await CourseServiceDemo.Run(courseService);

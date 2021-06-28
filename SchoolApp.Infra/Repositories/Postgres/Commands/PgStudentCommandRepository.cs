@@ -23,13 +23,14 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
 
             using var cnn = _helper.GetConnection(_connectionString);
             await cnn.QueryAsync(
-                sql: sql, 
-                param: new { 
-                    FirstName = (string) entity.FirstName, 
-                    LastName = (string) entity.LastName ,
-                    BirthDate = entity.BirthDate,
-                    Email = (string)entity.Email 
-            });
+                sql: sql,
+                param: new
+                {
+                    FirstName = (string)entity.FirstName,
+                    LastName = (string)entity.LastName,
+                    Email = (string)entity.Email,
+                    BirthDate = entity.BirthDate
+                });
         }
 
         public Task Delete(Student entity)
@@ -39,17 +40,18 @@ namespace SchoolApp.Infra.Repositories.Postgres.Commands
 
         public async Task Update(Student entity)
         {
-            var sql = _config.GetValue<string>(ProcedureConfigurationPath + nameof(Save));
+            var sql = _config.GetValue<string>(ProcedureConfigurationPath + nameof(Update));
 
             using var cnn = _helper.GetConnection(_connectionString);
             await cnn.QueryAsync(
                 sql: sql,
-                param: new {
+                param: new
+                {
                     FirstName = (string)entity.FirstName,
                     LastName = (string)entity.LastName,
                     BirthDate = entity.BirthDate,
                     Email = (string)entity.Email
-            });
+                });
         }
     }
 }

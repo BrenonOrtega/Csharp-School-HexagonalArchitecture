@@ -7,7 +7,7 @@ namespace SchoolApp.Application.Dtos.ReadDtos.CourseDtos
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
-        
+
         public CourseStudentDto(Student model)
         {
             Id = model.Id;

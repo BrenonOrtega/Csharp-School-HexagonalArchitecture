@@ -9,7 +9,7 @@ using SchoolApp.Domain.ValueObjects;
 
 namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
 {
-    public abstract class BaseJsonQueryRepository<T> : JsonRepositoryProperties<T>, IQueryRepository<T> where T: BaseEntity
+    public abstract class BaseJsonQueryRepository<T> : JsonRepositoryProperties<T>, IQueryRepository<T> where T : BaseEntity
     {
         public BaseJsonQueryRepository(IConfiguration config, ILogger logger) : base(config, logger)
         {
@@ -25,7 +25,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
             var enumeratedEntities = await GetEntries();
             var entityList = enumeratedEntities.ToList();
 
-            var queriedEntities =  GetPaginatedEntries(entityList, queryOffset, toRetrieveCount);
+            var queriedEntities = GetPaginatedEntries(entityList, queryOffset, toRetrieveCount);
             return queriedEntities;
         }
 

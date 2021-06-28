@@ -12,9 +12,9 @@ using StackExchange.Redis;
 
 namespace SchoolApp.Infra.Repositories.Redis
 {
-    public class RedisStudentRepository :  IStudentQueryRepository, IStudentCommandRepository
+    public class RedisStudentRepository : IStudentQueryRepository, IStudentCommandRepository
     {
-        public RedisStudentRepository(IConfiguration config, RedisMultiplexer multiplexer) 
+        public RedisStudentRepository(IConfiguration config, RedisMultiplexer multiplexer)
         {
             _config = config;
             _multiplexer = multiplexer;
@@ -52,7 +52,7 @@ namespace SchoolApp.Infra.Repositories.Redis
             var connectionString = _config.GetConnectionString(ConnectionConfigName);
             var database = _multiplexer.GetDatabase(connectionString);
             await database.SetAddAsync(
-                new RedisKey(entity.Id.ToString()), 
+                new RedisKey(entity.Id.ToString()),
                 new RedisValue(JsonSerializer.Serialize(entity))
             );
         }

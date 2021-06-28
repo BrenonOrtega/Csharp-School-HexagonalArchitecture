@@ -17,7 +17,7 @@ namespace SchoolApp.Infra.Repositories
         {
             _config = config;
             _helper = helper;
-            
+
             _connectionString = _config.GetConnectionString(ConnectionConfigName);
             _procedures = _config.GetSection(ProcedureConfigurationPath);
         }
