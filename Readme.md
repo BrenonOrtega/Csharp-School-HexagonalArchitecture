@@ -104,4 +104,7 @@ this did return me a "record", but was not returning the table with the fields, 
 SELECT * FROM public.getallstudents(paging_page:=page, paging_size:=size);
 ```
 
+### Json files
+ - Had a problem during serialization of value objects Email and Name so i had to discover how to serialize then correctly. After creating then and creating an extension method to add the converters to the json options directly at the constructor.
+
 ### A Huge thanks to [Tim Corey](https://github.com/TimCorey) and to [Andre Secco](https://github.com/andreluizsecco) for their teachings and for the content that they produce. <br/> Follow their channels for high quality .NET and general development content.
