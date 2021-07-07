@@ -41,10 +41,20 @@ namespace SchoolApp.Infra.Repositories.Postgres.Queries
 
         public async Task<IEnumerable<Student>> GetByName(Name name)
         {
-            var sql = $"SELECT * FROM public.aluno a WHERE a.primeiro_nome ILIKE @name OR a.ultimo_nome ILIKE @name";
+            var sql = _config.GetValue<string>(ProcedureConfigurationPath + nameof(GetByName));
             using var cnn = _helper.GetConnection(_connectionString);
             var student = await cnn.QueryAsync<Student>(sql: sql, param: new { name = (string)name });
+
             return student;
+        }
+
+        public async Task<IEnumerable<Student>> GetMultipleById(IEnumerable<int> ids)
+        {
+            var sql = _config.GetValue<string>(ProcedureConfigurationPath + nameof(GetMultipleById));
+            using var cnn = _helper.GetConnection(_connectionString);
+            var students = await cnn.QueryAsync<Student>(sql: sql, param: new { ids });
+
+            return students;
         }
     }
 }

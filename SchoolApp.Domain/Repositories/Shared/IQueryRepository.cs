@@ -12,5 +12,7 @@ namespace SchoolApp.Domain.Repositories.Shared
 
         Task<IEnumerable<T>> GetAll(int page, int rowCount);
 
+        Task<IEnumerable<T>> GetMultipleById(IEnumerable<int> ids);
+
     }
 }

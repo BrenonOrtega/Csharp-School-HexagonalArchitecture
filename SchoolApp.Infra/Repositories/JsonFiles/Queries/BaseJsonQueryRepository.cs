@@ -26,6 +26,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
             var entityList = enumeratedEntities.ToList();
 
             var queriedEntities = GetPaginatedEntries(entityList, queryOffset, toRetrieveCount);
+
             return queriedEntities;
         }
 
@@ -33,6 +34,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
         {
             const int StandardRetrievesCount = 20;
             var toRetrieveCount = rowCount > 0 ? rowCount : StandardRetrievesCount;
+            
             return toRetrieveCount;
         }
 
@@ -41,6 +43,7 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
             var paginatedEntries = entityList
                 .Where(entity => entityList.IndexOf(entity) >= queryOffset)
                 .Take(toRetrieveCount);
+            
             return paginatedEntries;
         }
 
@@ -48,7 +51,16 @@ namespace SchoolApp.Infra.Repositories.JsonFiles.Queries
         {
             var enumeratedEntities = await GetEntries();
             var queried = enumeratedEntities.SingleOrDefault(x => x.Id == id);
+            
             return queried;
+        }
+
+        public virtual async Task<IEnumerable<T>> GetMultipleById(IEnumerable<int> ids)
+        {
+            var enumeratedEntities = await GetEntries();
+            var queried = enumeratedEntities.Where(entity => ids.Contains(entity.Id));
+
+            return queried;   
         }
     }
 }

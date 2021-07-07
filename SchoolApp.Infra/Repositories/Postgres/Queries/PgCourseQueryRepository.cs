@@ -47,5 +47,13 @@ namespace SchoolApp.Services.Repositories.Async
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<Course>> GetMultipleById(IEnumerable<int> ids)
+        {
+            var sql = "SELECT c.id as Id, c.nome as Name From public.curso WHERE c.id IN @ids";
+            using var cnn = _helper.GetConnection(_connectionString);
+            var courses = await cnn.QueryAsync<Course>(sql: sql, param: new { ids });
+            
+            return courses;
+        }
     }
 }
