@@ -30,12 +30,15 @@ namespace SchoolApp.Application.Services.Course
         public async Task<IList<CourseReadDto>> RetrieveMultiple(int page = 0, int entriesCount = 20)
         {
             var courses = await _courseQuerier.GetAll(page, entriesCount);
-            return courses.Select(course => new CourseReadDto(course)).ToList();
+            var courseList = courses.Select(course => new CourseReadDto(course)).ToList();
+
+            return courseList;
         }
 
         public async Task<CourseReadDto> Retrieve(int id)
         {
             var course = await _courseQuerier.GetById(id);
+
             return course;
         }
 
@@ -59,7 +62,7 @@ namespace SchoolApp.Application.Services.Course
             throw new NotImplementedException();
         }
 
-        public void AddStudent(StudentReadDto student)
+        public async Task AddStudent(StudentReadDto student)
         {
             throw new System.NotImplementedException();
         }
